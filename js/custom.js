@@ -59,11 +59,47 @@ $(function () {
 		interval: 5000
 	});
 
+	// Custom Toast Notification Function
+	function showToast(message, type = 'success') {
+		let container = $('.toast-container');
+		if (container.length === 0) {
+			$('body').append('<div class="toast-container"></div>');
+			container = $('.toast-container');
+		}
+
+		const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+		const toast = $(`
+			<div class="custom-toast ${type}">
+				<div class="icon"><i class="fa ${icon}"></i></div>
+				<div class="message">${message}</div>
+			</div>
+		`);
+
+		container.append(toast);
+		setTimeout(() => toast.addClass('show'), 100);
+
+		setTimeout(() => {
+			toast.removeClass('show');
+			setTimeout(() => toast.remove(), 500);
+		}, 4000);
+	}
+
 	// booking form submission
 	$('.book_now').on('submit', function (e) {
 		e.preventDefault();
-		alert('Thank you for your booking request! We will contact you shortly to confirm.');
-		this.reset();
+		const myForm = e.target;
+		const formData = new FormData(myForm);
+
+		fetch("/", {
+			method: "POST",
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			body: new URLSearchParams(formData).toString(),
+		})
+			.then(() => {
+				showToast('Booking request sent! We will contact you shortly.');
+				myForm.reset();
+			})
+			.catch((error) => showToast('Error sending booking. Please try again.', 'error'));
 	});
 
 	// Netlify Form Submission with AJAX
@@ -78,10 +114,10 @@ $(function () {
 			body: new URLSearchParams(formData).toString(),
 		})
 			.then(() => {
-				alert('Thank you for your message! We will get back to you soon.');
+				showToast('Thank you! Your message has been received.');
 				myForm.reset();
 			})
-			.catch((error) => alert('Oops! There was an error submitting the form. Please try again.'));
+			.catch((error) => showToast('Oops! There was an error. Please try again.', 'error'));
 	};
 
 	// Attach handler to contact form
