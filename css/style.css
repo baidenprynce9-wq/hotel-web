@@ -953,3 +953,59 @@ ul.social_icon li a:hover {
 .inner_page .blog {
      margin-top: 90px;
 }
+
+/*--------------------------------------------------------------------- notification ---------------------------------------------------------------------*/
+
+.toast-container {
+     position: fixed;
+     top: 20px;
+     right: 20px;
+     z-index: 9999;
+}
+
+.custom-toast {
+     background: #ffffff;
+     color: #333;
+     padding: 15px 25px;
+     border-radius: 8px;
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+     margin-bottom: 15px;
+     display: flex;
+     align-items: center;
+     min-width: 300px;
+     transform: translateX(120%);
+     transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+     border-left: 5px solid #fe0000;
+}
+
+.custom-toast.show {
+     transform: translateX(0);
+}
+
+.custom-toast .icon {
+     margin-right: 15px;
+     font-size: 20px;
+     color: #fe0000;
+}
+
+.custom-toast .message {
+     font-weight: 500;
+     font-family: 'Poppins', sans-serif;
+     font-size: 16px;
+}
+
+.custom-toast.success {
+     border-left-color: #28a745;
+}
+
+.custom-toast.success .icon {
+     color: #28a745;
+}
+
+.custom-toast.error {
+     border-left-color: #dc3545;
+}
+
+.custom-toast.error .icon {
+     color: #dc3545;
+}
